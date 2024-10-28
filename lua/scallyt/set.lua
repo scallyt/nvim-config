@@ -1,3 +1,6 @@
+-- Left column and similar settings
+vim.opt.number = true -- display line numbers
+vim.opt.relativenumber = true -- display relative line numbers
 vim.opt.nu = true
 
 vim.g.loaded_netrw = 1
@@ -13,7 +16,7 @@ vim.opt.smartindent = true
 vim.opt.wrap = false
 
 vim.opt.hlsearch = false
-vim.opt.incsearch = true -- Itt javítva
+vim.opt.incsearch = true
 
 vim.opt.termguicolors = true
 

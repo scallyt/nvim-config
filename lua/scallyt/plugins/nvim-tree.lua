@@ -21,14 +21,22 @@ return {
                 }
             end
 
-            -- default mappings
+            -- Default mappings
             api.config.mappings.default_on_attach(bufnr)
 
+            -- Custom keybindings
             vim.keymap.set("n", "]g", api.node.navigate.git.next, opts("Next Git"))
             vim.keymap.set("n", "[g", api.node.navigate.git.prev, opts("Prev Git"))
-            vim.keymap.set("n", "<leader>fe", api.tree.toggle, {
-                desc = "Toggle Nvim Tree"
-            })
+
+            -- Toggle or focus Nvim Tree with <leader>fe
+            vim.keymap.set("n", "<leader>fe", function()
+                if api.tree.is_visible() then
+                    api.tree.focus() -- Focus on the tree if it's open
+                else
+                    api.tree.open() -- Open the tree if it's not open
+                end
+            end, { desc = "Toggle or Focus Nvim Tree" })
+
             vim.keymap.set("n", "<c-n>", ":NvimTreeFindFileToggle<CR>", {
                 desc = "Toggle Nvim Tree"
             })
@@ -36,13 +44,9 @@ return {
                 desc = "Close Nvim Tree"
             })
 
-            -- Custom mappings
-            vim.keymap.del("n", "]c", {
-                buffer = bufnr
-            })
-            vim.keymap.del("n", "[c", {
-                buffer = bufnr
-            })
+            -- Remove default conflict mappings
+            vim.keymap.del("n", "]c", { buffer = bufnr })
+            vim.keymap.del("n", "[c", { buffer = bufnr })
         end
 
         require("nvim-tree").setup({
@@ -64,3 +68,4 @@ return {
         })
     end
 }
+
