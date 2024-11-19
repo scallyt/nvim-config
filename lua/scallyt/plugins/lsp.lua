@@ -31,33 +31,43 @@ return {
                     "lua_ls",
                     "eslint",
                     "emmet_language_server",
-                    "htmx",
                     "tailwindcss",
                     "clangd",
-                    "tsserver",
-                    "jdtls",
+                    "ts_ls",
                 },
                 automatic_installation = true,
             })
 
             -- CMP setup
             cmp.setup({
-                snippet = {
-                    expand = function(args)
-                        require("luasnip").lsp_expand(args.body)
-                    end,
-                },
-                mapping = cmp.mapping.preset.insert({
-                    ["<C-n>"] = cmp.mapping.select_next_item(),
-                    ["<C-p>"] = cmp.mapping.select_prev_item(),
-                    ["<CR>"] = cmp.mapping.confirm({ select = true }),
-                }),
-                sources = cmp.config.sources({
-                    { name = "nvim_lsp" },
-                    { name = "luasnip" },
-                    { name = "buffer" },
-                }),
-            })
+    snippet = {
+        expand = function(args)
+            require("luasnip").lsp_expand(args.body)
+        end,
+    },
+    mapping = cmp.mapping.preset.insert({
+        ["<C-n>"] = cmp.mapping.select_next_item(),
+        ["<C-p>"] = cmp.mapping.select_prev_item(),
+        ["<CR>"] = cmp.mapping.confirm({ select = true }),
+    }),
+    sources = cmp.config.sources({
+        { name = "nvim_lsp" },
+        { name = "luasnip" },
+        { name = "buffer" },
+    }),
+    window = {
+        completion = cmp.config.window.bordered({
+            winhighlight = "Normal:CmpPmenu,CursorLine:PmenuSel,Search:None",
+            side_padding = 1,
+            max_item_count = 8, -- maximum 8 ajánlás jelenik meg
+        }),
+        documentation = cmp.config.window.bordered({
+            winhighlight = "Normal:CmpPmenu,CursorLine:PmenuSel,Search:None",
+            side_padding = 1,
+        }),
+    },
+})
+
 
             -- Helper function for LSP attach
             local on_attach = function(_, bufnr)
@@ -95,7 +105,7 @@ return {
                     },
                 },
             })
-            setup_lsp("tsserver")
+            setup_lsp("ts_ls")
             setup_lsp("eslint", { settings = { validate = "onSave" } })
             setup_lsp("clangd", {
                 on_attach = function(client, bufnr)
@@ -110,7 +120,6 @@ return {
             setup_lsp("tailwindcss", {
                 filetypes = { "html", "css", "javascript", "javascriptreact", "typescript", "typescriptreact", "vue", "svelte" },
             })
-            setup_lsp("htmx")
 
             -- Debugger setup with mason-nvim-dap
             require("mason-nvim-dap").setup({

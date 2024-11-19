@@ -23,7 +23,7 @@ return {
           deleted = { enabled = true, icon = '-' },
         },
         filetype = {
-          custom_colors = false,
+          custom_colors = true,
 
           enabled = true,
         },
